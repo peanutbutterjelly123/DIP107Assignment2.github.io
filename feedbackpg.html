@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Feedback</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+        <meta http-equiv="X-UA Compatible" content="IE=edge">
+        <meta name ="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Responsive Scented Website</title>
+        <!--Link to CSS-->
+        <link rel="stylesheet" href="f&c.css">
+        <!--Box Icons-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"></link>
+        <link rel="stylesheet"
+            href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <style>
+        .feedback {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">
+            <img src="img/logo.png" alt="">
+        </a>
+        <!--Menu icon-->
+        <i class='bx bx-menu' id="menu-icon"></i>
+        <!--link-->
+        <nav id="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="home.html">Home</a></li>
+                <li class="nav-item"><a href="products.html">Products</a></li>
+                <li class="nav-item"><a href="discount.html">Discount</a></li>
+                <li class="nav-item"><a href="AboutUs.html">About Us</a></li>
+                <li class="nav-item"><a href="ContactUs.html">Contact Us</a></li>
+                <li class="nav-item"><a href="loginpg.html">Log In</a></li>
+                <li class="nav-item"><a href="feedbackpg.html">Feedback</a></li>
+            </ul>
+        </nav>
+
+        <!--icon bar-->
+        <div class="header-icon">
+            <i class='bx bx-cart' ></i>
+            <i class='bx bx-search' id="search-icon" ></i>
+        </div>
+        <div class="">
+            <input type="search" name="" id="" placeholder="Search Here...">
+
+        </div>
+    </header>
+    <h1>Product Feedback</h1>
+
+    <form id="feedbackForm">
+        <label for="rating">Rating:</label>
+        <select id="rating" name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <br>
+
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment"></textarea>
+
+        <br>
+
+        <input type="submit" value="Submit Feedback">
+    </form>
+
+    <h2>Previous Feedback</h2>
+    <div id="previousFeedback">
+        <!-- Existing feedback will be displayed here -->
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Load existing feedback from storage and display
+            var existingFeedback = localStorage.getItem("feedback");
+            if (existingFeedback) {
+                $("#previousFeedback").html(existingFeedback);
+            }
+
+            // Handle form submission
+            $("#feedbackForm").submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Get the rating and comment values
+                var rating = $("#rating").val();
+                var comment = $("#comment").val();
+
+                // Create the feedback HTML element
+                var feedbackElement = "<div class='feedback'>Rating: " + rating + ", Comment: " + comment + "</div>";
+
+                // Append the feedback element to the previousFeedback div
+                $("#previousFeedback").prepend(feedbackElement);
+
+                // Store the updated feedback in local storage
+                var updatedFeedback = $("#previousFeedback").html();
+                localStorage.setItem("feedback", updatedFeedback);
+
+                // Show an alert
+                alert("Thank you for your feedback!");
+
+                // Reset the form
+                $("#rating").val("1");
+                $("#comment").val("");
+            });
+        });
+    </script>
+    <section class="ContactUs">
+        <div class="footer-box">
+            <h2>Contact Us</h2>
+            <p>Have any issues/questions? Feel free to contact us!</p>
+            <div class="social">
+                <a href="https://www.facebook.com/"><i class='bx bxl-facebook' ></i></a>
+                <a href="https://www.twitter.com/"><i class='bx bxl-twitter'></i></a>
+                <a href="https://www.instagram.com/"><i class='bx bxl-instagram' ></i></a>
+                <a href="https://www.tiktok.com/"><i class='bx bxl-tiktok' ></i></a>
+            </div>
+        </div>
+        <div class="footer-box">
+            <h3>Support</h3>
+            <li><a href="#">Product</a></li>
+            <li><a href="#">Help & Support</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Terms Of Use</a></li>
+            <li><a href="#">Product</a></li>
+        </div>
+        <div class="footer-box">
+            <h3>View Guides</h3>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog Posts</a></li>
+            <li><a href="#">Our branches</a></li>
+        </div>
+        <div class="footer-box">
+            <h3>Contact</h3>
+            <div class="contact">
+                <span><i class='bx bxs-map'></i>No. 8 Jln Bukit Pantai Taman Bukit Pantai Kuala Lumpur</span>
+                <span><i class='bx bxs-phone'></i>+60387992033</span>
+                <span><i class='bx bxs-envelope'></i>eysi@gmail.com</span>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
