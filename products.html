@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <!--Link to CSS-->
+    <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="cart.css">
+    <!--Box Icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const products = [
+        {
+                id: 1,
+                name: 'Strawberry Jasmine Candles',
+                image: 'assignment66.PNG',
+                price: 65
+            },
+
+            {
+                id: 2,
+                name: 'Chili Durian Candle',
+                image: 'assignment66.PNG',
+                price: 65
+            },
+
+            {
+                id: 3,
+                name: 'Cherry Blossom Candle',
+                image: 'assignment66.PNG',
+                price: 65
+            },
+
+            {
+                id: 4,
+                name: 'Orangee Lemon Grass Candle',
+                image: 'assignment66.PNG',
+                price: 65
+            },
+
+            {
+                id: 5,
+                name: 'Masala Green Tea Candle',
+                image: 'assignment66.PNG',
+                price: 65
+            },
+
+            {
+                id: 6,
+                name: 'Mint Essential Oil',
+                image: 'assignment44.PNG',
+                price: 60
+            },
+
+            {
+                id: 7,
+                name: 'Mango Essential Oil',
+                image: 'assignment44.PNG',
+                price: 60
+            },
+
+            {
+                id: 8,
+                name: 'Blue Berry Essential Oil',
+                image: 'assignment44.PNG',
+                price: 60
+            },
+
+            {
+                id: 9,
+                name: 'Orange Essential Oil',
+                image: 'assignment44.PNG',
+                price: 60
+            },
+
+            {
+                id: 10,
+                name: 'Strawberry Essential Oil',
+                image: 'assignment44.PNG',
+                price: 60
+            },
+
+            {
+                id: 11,
+                name: 'Sea Salt Perfume',
+                image: 'assignment88.PNG',
+                price: 75
+            },
+
+            {
+                id: 12,
+                name: 'Vanilla Sweet Banana Perfume',
+                image: 'assignment88.PNG',
+                price: 75
+            },
+
+            {
+                id: 13,
+                name: 'Pear and Rose Perfume',
+                image: 'assignment88.PNG',
+                price: 75
+            },
+
+            {
+                id: 14,
+                name: 'Elderflower Lavender Perfume',
+                image: 'assignment88.PNG',
+                price: 75
+            },
+
+            {
+                id: 15,
+                name: 'Strawberry Milk Perfume',
+                image: 'assignment88.PNG',
+                price: 75
+            },
+        ];
+
+        let listCards = [];
+
+        function initApp() {
+            let list = document.querySelector('.list');
+            products.forEach(function (value, key) {
+                let newDiv = document.createElement('div');
+                newDiv.classList.add('item');
+                newDiv.innerHTML = `
+                    <img src="imge/${value.image}" class='productImage'>
+                    <div class="title">${value.name}</div>
+                    <div class="price">RM ${value.price.toLocaleString()}</div>
+                    <button onclick="addCard(${key})">Add To Card </button>
+                `;
+                list.appendChild(newDiv);
+            });
+        }
+
+        function addCard(key) {
+            if (listCards[key] == null) {
+                listCards[key] = { ...products[key], quantity: 1 };
+            } else {
+                listCards[key].quantity++;
+            }
+            reloadCard();
+        }
+
+        function reloadCard() {
+            let listCard = document.querySelector('.listCard');
+            let totalElement = document.getElementById('totalText');
+
+            listCard.innerHTML = '';
+            let count = 0;
+            let totalPrice = 0;
+            listCards.forEach(function (value, key) {
+                totalPrice = totalPrice + (value?.price * value?.quantity);
+                count = count + value.quantity;
+
+                if (value != null) {
+                    let newLi = document.createElement('li');
+                    newLi.innerHTML = `
+                        <img src="imge/${value.image}" class='productImage'>
+                        <div class="textCart">${value.name}</div>
+                        <div class="textCart">${value.price.toLocaleString()}</div>
+                        <div>
+                            <button onclick="changeQuantity(${key},${value.quantity - 1})">-</button>
+                            <div class="count">${value.quantity}</div>
+                            <button onclick="changeQuantity(${key},${value.quantity + 1})">+</button>
+                        </div>
+                    `;
+                    listCard.appendChild(newLi);
+                }
+            });
+            totalElement.innerText = "RM " + totalPrice;
+        }
+
+        function changeQuantity(key, quantity) {
+            if (quantity == 0) {
+                delete listCards[key];
+            } else {
+                listCards[key].quantity = quantity;
+            }
+            reloadCard();
+        }
+
+        $(document).ready(function () {
+            var openShopping = document.getElementById('Shopping');
+            var cartIcon = document.querySelector('.cart-icon');
+            var cartDropdown = document.querySelector('.cart-dropdown');
+            var closeShopping = document.querySelector('.closeShopping');
+            var body = document.body;
+
+            cartIcon.addEventListener('click', function () {
+                cartDropdown.classList.toggle('show');
+            });
+
+            openShopping.addEventListener('click', function () {
+                body.classList.add('active');
+            });
+
+            closeShopping.addEventListener('click', function () {
+                body.classList.remove('active');
+            });
+        });
+    </script>
+</head>
+
+<body onload="initApp()">
+    <header>
+        <div class="cart-container">
+            <div class="Shopping">
+                <a href="#" class="cart-icon"><i class='bx bx-cart'></i></a>
+                <span class="quantity">0</span>
+                <span id="paymentMethod">Pay</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="list"></div>
+
+    <div class="Card">
+        <h1>Card</h1>
+        <ul class="listCard"></ul>
+
+        <div class="checkOut">
+            <div class="total" id="totalText">0</div>
+            <div class="closeShopping"><strong>Close</strong></div>
+            <div><a href="payment.html" class="paymentMethod">Pay</a></div>
+        </div>
+    </div>
+
+    <header>
+        <a href="#" class="logo">
+            <img src="img/logo.png" alt="">
+        </a>
+        <!--Menu icon-->
+        <i class='bx bx-menu' id="menu-icon"></i>
+        <!--link-->
+        <nav id="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html">Home</a></li>
+                <li class="nav-item"><a href="products.html">Products</a></li>
+                <li class="nav-item"><a href="AboutUs.html">About Us</a></li>
+                <li class="nav-item"><a href="ContactUs.html">Contact Us</a></li>
+                <li class="nav-item"><a href="loginpg.html">Log In</a></li>
+                <li class="nav-item"><a href="feedbackpg.html">Feedback</a></li>
+            </ul>
+        </nav>
+
+        <!--icon bar-->
+        <div class="header-icon">
+            <div id="Shopping">
+                <i class='bx bx-cart'></i>
+            </div>
+            <i class='bx bx-search' id="search-icon"></i>
+        </div>
+        <div class="">
+            <input type="search" name="" id="" placeholder="Search Here...">
+        </div>
+    </header>
+
+    <section class="ContactUs">
+        <div class="footer-box">
+            <h2>Contact Us</h2>
+            <p>Have any issues/questions? Feel free to contact us!</p>
+            <div class="social">
+                <a href="https://www.facebook.com/"><i class='bx bxl-facebook' ></i></a>
+                <a href="https://www.twitter.com/"><i class='bx bxl-twitter'></i></a>
+                <a href="https://www.instagram.com/"><i class='bx bxl-instagram' ></i></a>
+                <a href="https://www.tiktok.com/"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="footer-box">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="#">Product</a></li>
+                <li><a href="#">Help & Support</a></li>
+                <li><a href="#">Return Policy</a></li>
+                <li><a href="#">Terms Of Use</a></li>
+                <li><a href="#">Product</a></li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>View Guides</h3>
+            <ul>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Blog Posts</a></li>
+                <li><a href="#">Our branches</a></li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Contact</h3>
+            <div class="contact">
+                <span><i class='bx bxs-map'></i>No. 8 Jln Bukit Pantai Taman Bukit Pantai Kuala Lumpur</span>
+                <span><i class='bx bxs-phone'></i>+60387992033</span>
+                <span><i class='bx bxs-envelope'></i>eysi@gmail.com</span>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
