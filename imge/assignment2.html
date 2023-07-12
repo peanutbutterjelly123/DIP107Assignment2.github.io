@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #e3e7e8;
+            font-family: system-ui;
+        }
+        h1{
+            color:#47133b
+        }
+
+        .container {
+            width: 1000px;
+            margin: auto;
+            transition: 0.5s;
+            background-color: #f3cff8;
+        }
+
+        header {
+            display: grid;
+            grid-template-columns: 1fr 50px;
+            margin-top: 50px;
+        }
+
+        header .Shopping {
+            position: relative;
+            text-align: right;
+        }
+
+        header .Shopping img {
+            width: 40px;
+        }
+
+        header .Shopping span {
+            background-color: rgb(49, 37, 37);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: absolute;
+            top: -5px;
+            left: 100%;
+            padding: 3px 10px;
+        }
+
+        .list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 20px;
+            row-gap: 20px;
+            margin-top: 50px;
+        }
+
+        .Card {
+            position: fixed;
+            top: 0;
+            width: 500px;
+            background-color: #272722;
+            left: 100%;
+            color: #252522;
+            height: 100vh;
+            transition: 0.5s;
+            font-size: large;
+        }
+
+        .Card h1 {
+            color: #a0a08d;
+            font-size: 100;
+            margin: 0;
+            padding: 0 20px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .Card .checkOut {
+            position: absolute;
+            right: 60px;
+            float: center;
+            bottom: 0;
+            width: 60%;
+            display: grid;
+            grid-template-columns: repeat(1, 2fr);
+        }
+
+        .productImage {
+            width: 200px;
+        }
+
+        .textCart {
+            color: #e5e7d1;
+        }
+
+
+
+        .Card .checkOut div {
+            background-color: #b6b4a6;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .Card .checkOut div:nth-child(2) {
+            background-color: #252522;
+            color: #fff;
+        }
+
+        .active .Card {
+            left: calc(100% - 500px);
+        }
+
+        .active .contatiner {
+            transform: translatex(-200px);
+        }
+
+        .list .item {
+            text-align: center;
+            background-color: #dce0e1;
+            padding: 20px;
+            box-shadow: 0 50px 50px #757676;
+            letter-spacing: 1px;
+        }
+
+        .list .item img {
+            width: 60%;
+        }
+
+        .list .item .title {
+            font-weight: 600px;
+        }
+
+        .list .item .price {
+            margin: 10px;
+        }
+
+        .button {
+            background-color: #272722;
+            color: #e3e7e8;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .listCard li {
+            display: grid;
+            grid-template-columns: 100px repeat(3, 1fr);
+            color: #e3e7e8;
+            row-gap: 10px;
+            margin-bottom: 20px;
+
+        }
+
+        .listCard li div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .listCard li img {
+            width: 90%;
+        }
+
+        .listCard button {
+            width: auto;
+            background-color: #a0a08d;
+            border: none;
+        }
+
+        .listCard .count {
+            margin: 0 10px;
+        }
+    </style>
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: 'Rosemary scented with Cherry Candles',
+                image: 'assign22.PNG',
+                price: 55
+            },
+
+            {
+                id: 2,
+                name: 'Masala GreenEssential Oil',
+                image: 'assignment33.PNG',
+                price: 80,
+            },
+
+            {
+                id: 3,
+                name: 'Relaxing Comforting Body Oil',
+                image: 'assignment88.PNG',
+                price: 65
+            },
+
+            {
+                id: 4,
+                name: 'Frankincense Essential Oil',
+                image: 'assignment55.PNG',
+                price: 65
+            },
+
+            {
+                id: 5,
+                name: 'ENGLISH PEAR & FREESIA DELUX CANDLE',
+                image: 'assignment66.PNG',
+                price: 65
+            },
+
+            {
+                id: 6,
+                name: 'WOOD SAGE & SEA SALT HOME CANDLE',
+                image: 'assignment77.PNG',
+                price: 65
+            },
+
+        ];
+
+        let listCards = [];
+
+        function initApp() {
+            let list = document.querySelector('.list');
+            products.forEach(function (value, key) {
+                let newDiv = document.createElement('div');
+                newDiv.classList.add('item');
+                newDiv.innerHTML = `
+        <img src="imge/${value.image}"/ class='productImage'>
+        <div class="title">${value.name}</div>
+        <div class="price">RM ${value.price.toLocaleString()}</div>
+        <button onclick ={addCard(${key})}>Add To Card </button>
+        `;
+                list.appendChild(newDiv);
+            });
+        }
+
+        function addCard(key) {
+            if (listCards[key] == null) {
+                listCards[key] = { ...products[key], quantity: 1 };
+            } else {
+                listCards[key].quantity++;
+            }
+            reloadCard();
+        }
+
+        function reloadCard() {
+            let listCard = document.querySelector('.listCard');
+            var totalElement = document.getElementById('totalText');
+
+            listCard.innerHTML = '';
+            let count = 0;
+            let totalPrice = 0;
+            listCards.forEach(function (value, key) {
+                totalPrice = totalPrice+(value?.price * value?.quantity);
+                count = count + value.quantity;
+
+                if (value != null) {
+                    let newLi = document.createElement('li');
+                    newLi.innerHTML = `
+                    <img src="imge/${value.image}"class='productImage'>
+        <div class="textCart">${value.name}</div>
+        <div class="textCart">${value.price.toLocaleString()}</div>
+                        <div>
+                        <button onclick={changeQuantity(${key},${value.quantity - 1})}>-</button>
+                        <div class="count">${value.quantity}</div>
+                        <button onclick={changeQuantity(${key},${value.quantity + 1})}>+</button>
+                        </div>
+                    `;
+                    listCard.appendChild(newLi);
+                }
+            });
+            totalElement.innerText = "RM " + totalPrice;
+
+        }
+        function changeQuantity(key, quantity) {
+            if (quantity == 0) {
+                delete listCards[key];
+            } else {
+                listCards[key].quantity = quantity;
+            }
+            reloadCard();
+        }
+
+
+
+
+
+        $(document).ready(function () {
+            var openShopping = document.querySelector('.Shopping');
+            var closeShopping = document.querySelector('.closeShopping');
+            var body = document.body;
+            var container = document.querySelector('.container');
+            var total = document.querySelector('.total');
+            var quantity = document.querySelector('.quantity');
+            var paymentMethod = document.querySelector('.paymentMethod');
+
+            openShopping.addEventListener('click', function () {
+                body.classList.add('active');
+
+            })
+
+            closeShopping.addEventListener('click', function () {
+                body.classList.remove('active');
+            })
+
+
+
+            let list = document.querySelector('.list');
+
+        })
+
+    </script>
+
+</head>
+
+<body onload="initApp()">
+    <h1>Our Candles</h1>
+    <script>
+        window.onload = function () {
+            initApp();
+        };
+    </script>
+    <div class="container">
+        <header>
+            <div class="Shopping">
+                <img src="cart.jpeg">
+                <span class="quantity">0</span>
+                <span class="paymentMethod">Pay</span>
+            </div>
+        </header>
+        <div class="list"></div>
+    </div>
+
+    <div class="Card">
+        <h1>Card</h1>
+        <ul class="listCard"></ul>
+
+        <div class="checkOut">
+            <div class="total" id="totalText">0</div>
+            <div class="closeShopping"><strong>Close</div>
+            <div class="paymentMethod"><strong>Pay</div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
