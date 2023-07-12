@@ -1,0 +1,80 @@
+/*login, signup & feedback*/
+button#loginButton,
+button#signupButton {
+  background-color: #834459;
+  color: whitesmoke;
+  font-size: 15px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+
+  /* Center horizontally */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Position vertically */
+  top: 50%;
+  transform: translateY(-50%);
+
+  /* Add spacing between the buttons */
+  margin-top: -15px;
+}
+
+button#signupButton {
+  /* Position the signup button below the login button */
+  margin-top: 50px;
+}
+
+button#loginButton:hover,
+button#signupButton:hover {
+  opacity: 0.8;
+}
+  
+
+/* Styles for the username, password, and email input fields */
+/* Styles for the form labels */
+form label {
+    font-weight: bold;
+    font-size: large;
+  }
+  
+  /* Styles for the username, password, and email input fields */
+  form input[type="text"],
+  form input[type="password"],
+  form input[type="email"] {
+    font-size: 18px;
+    border: 2px solid grey;
+  }
+  
+  /* Styles for the input fields when focused */
+  form input[type="text"]:focus,
+  form input[type="password"]:focus,
+  form input[type="email"]:focus {
+    border-color: #739ab9;
+  }
+  
+  /* Styles for the submit button */
+  form button[type="submit"] {
+    background-color: #834459;
+    color: whitesmoke;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  form button[type="submit"]:hover {
+    opacity: 0.8;
+  }
+  
+  /* Center the form elements */
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
